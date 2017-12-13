@@ -4,7 +4,7 @@ use nqp;
 
 sub create-element($tag-name, *@data) is export {
     my %data = @data.classify: {$_ ~~ Pair ?? "pars" !! "children"};
-	Proact::Element.new:
+    Proact::Element.new:
         :$tag-name,
         :pars(
             %data<pars>
