@@ -1,4 +1,5 @@
 unit class Proact::Element;
+use Proact::ElementPlugin;
 
 has $.tag-name      is required;
 has @.children;
@@ -8,7 +9,9 @@ method new(:$tag-name, *%pars) {
     if not self.is-valid-tag: $tag-name {
         fail "Tag '$tag-name' isn't a valid tag name";
     }
-    self.bless: :$tag-name, |%pars
+    my $obj = self.bless: :$tag-name, |%pars;
+    $obj = $obj but $_ for @Proact::element-plugins.grep: Proact::ElementPlugin;
+    $obj
 }
 
 proto method value(                 $ ) { *                         }
@@ -35,7 +38,7 @@ multi method attr($name, $value where * === True )  {
 multi method attr($name, $value)                    {
     "{self.translate-key($name)}='{$value}'"
 }
-method !attrs is hidden-from-backtrace {
+method !attrs {
     %!pars.kv.map(-> $name, $value {
         self.attr: $name, $value
     })

@@ -3,4 +3,6 @@ use Test;
 use-ok "Proact";
 use Proact;
 
-isa-ok Element, "Proact::Element";
+isa-ok Proact::Element, "Proact::Element";
+
+done-testing;

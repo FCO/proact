@@ -15,3 +15,5 @@ like    Proact::Element.new(:tag-name<div>, :pars{:1a, :2b, :3c}).render,
 like    Proact::Element.new(:tag-name<div>, :pars{:1a, :2b, :3c}, :children[1]).render,
         rule {^ ["<" ~ ">" ["div" ["a='1'" | "b='2'" | "c='3'"] ** 3]] ~ ["</" ~ ">" "div"] 1 $}
 ;
+
+done-testing;
