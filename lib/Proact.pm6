@@ -1,15 +1,22 @@
-use Proact::Element;
 use MetamodelX::ComponentHOW;
-unit package Proact;
-our @element-plugins;
+use Proact::ElementPlugin;
 
-sub element-plugins(*@plugins) is export {
-    @element-plugins.push: $_ for @plugins
+package Proact {
+    our @element-plugins;
+
+    sub EXPORT {
+        use Proact::Element;
+        use Proact::ElementPlugin;
+        %(
+            "Element"           => Proact::Element,
+            "&element-plugins"  => &element-plugins,
+        )
+    }
+
 }
 
-sub EXPORT {
-    %(
-        "Element"               => Proact::Element,
-        "component"             => MetamodelX::ComponentHOW,
-    )
+my package EXPORTHOW {
+    package DECLARE {
+        constant component = MetamodelX::ComponentHOW;
+    }
 }

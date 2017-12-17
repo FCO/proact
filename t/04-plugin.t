@@ -10,7 +10,9 @@ role Bla does Proact::ElementPlugin {}
 
 isa-ok &element-plugins, Sub;
 
-element-plugins(Bla);
+element-plugins Bla;
+
+is-deeply @Proact::element-plugins, [Bla];
 
 does-ok Proact::Element.new(:tag-name<div>), Bla;
 

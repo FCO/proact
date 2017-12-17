@@ -1,16 +1,16 @@
 unit class Proact::Element;
-use Proact::ElementPlugin;
 
 has $.tag-name      is required;
 has @.children;
 has %.pars;
 
 method new(:$tag-name, *%pars) {
+    use Proact::ElementPlugin;
     if not self.is-valid-tag: $tag-name {
         fail "Tag '$tag-name' isn't a valid tag name";
     }
     my $obj = self.bless: :$tag-name, |%pars;
-    $obj = $obj but $_ for @Proact::element-plugins.grep: Proact::ElementPlugin;
+    $obj = $obj but $_ for |element-plugins;
     $obj
 }
 
