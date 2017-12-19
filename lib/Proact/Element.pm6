@@ -1,4 +1,5 @@
 unit class Proact::Element;
+use Proact::Component;
 
 has $.tag-name      is required;
 has @.children;
@@ -10,19 +11,20 @@ method new(:$tag-name, *%pars) {
         fail "Tag '$tag-name' isn't a valid tag name";
     }
     my $obj = self.bless: :$tag-name, |%pars;
-    $obj = $obj but $_ for |element-plugins;
+    my @plugins = |element-plugins;
+    $obj = $obj but $_ for @plugins;
     $obj
 }
 
-proto method value(                 $ ) { *                         }
-#multi method value(Component        $_) { self.value(.render, $_)   }
-multi method value(Proact::Element  $_) { .render                   }
-multi method value(Positional       $_) { |.map: {self.value($_)}   }
-multi method value(Any:U            $_) { Empty                     }
-multi method value(Block            $_) { .name                     }
-multi method value($ where * === False) { False                     }
-multi method value($ where * === True ) { True                      }
-multi method value(Any              $_) { .Str                      }
+proto method value(                     $ ) { *                         }
+multi method value(Proact::Component    $_) { self.value(.render, $_)   }
+multi method value(Proact::Element      $_) { .render                   }
+multi method value(Positional           $_) { |.map: {self.value($_)}   }
+multi method value(Any:U                $_) { Empty                     }
+multi method value(Block                $_) { .name                     }
+multi method value(    $ where * === False) { False                     }
+multi method value(    $ where * === True ) { True                      }
+multi method value(Any                  $_) { .Str                      }
 
 proto method translate-key(         $ ) { *         }
 multi method translate-key("className") { "class"   }

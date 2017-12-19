@@ -79,7 +79,7 @@ sub EXPORT {
             ] ~ ["</" ~ ">" $<tag-name>] <p6x-children>*
         }
         rule term:sym<p6x> {
-            <p6x-tag>
+            p6x <p6x-tag>
         }
     },
     role {

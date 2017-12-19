@@ -6,10 +6,14 @@ package Proact {
 
     sub EXPORT {
         use Proact::Element;
+        use Proact::Component;
         use Proact::ElementPlugin;
+        use Proact::ComponentPlugin;
         %(
-            "Element"           => Proact::Element,
-            "&element-plugins"  => &element-plugins,
+            "Element"               => Proact::Element,
+            "Component"             => Proact::Component,
+            "&element-plugins"      => &element-plugins,
+            "&component-plugins"    => &component-plugins,
         )
     }
 
